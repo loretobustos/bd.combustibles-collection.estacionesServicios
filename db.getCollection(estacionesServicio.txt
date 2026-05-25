@@ -1,0 +1,46 @@
+db.getCollection("estacionesServicios").find({})
+
+db.estacionesServicios.find()
+
+
+//todas las estaciones de servicio en la comuna de maipu
+db.estacionesServicios.find({"ubicacion.nombre_comuna":"Maipú"})
+
+
+//estaciones de servicios de la comuna de maipu y que el distribuidor sea copec
+db.estacionesServicios.find({$and:[{"ubicacion.nombre_comuna":"Maipú"}, {"distribuidor.marca":"COPEC"}]})
+
+//SEGUN LA ANTERIOR SE DEBE MOSTRAR DIRECCION Y PRECIOS
+db.estacionesServicios.find({$and:[{"ubicacion.nombre_comuna":"Maipú"}, {"distribuidor.marca":"COPEC"}]},
+                            {_id:0, "ubicacion.direccion":1, precios:1})
+                            
+//estaciones de servicio cuyo nombre de comuna empiece con ma
+db.estacionesServicios.find({"ubicacion.nombre_comuna":{$regex:/^ma/i}})
+
+//estaciones de servicio cuyo nombre de comuna empiece con ma y cuyo distribuidor sea shell
+db.estacionesServicios.find({$and:[{"ubicacion.nombre_comuna":{$regex:/^ma/i}},
+                            {"distribuidor.marca":{$regex:/^shell/i}}]},
+                             {_id:0, razon_social:1, "ubicacion.nombre_comuna":1, "ubicacion.direccion":1, "distribuidor.marca":1, precios:1})
+                             
+// y si quiero ver los precios de 95
+db.estacionesServicios.find({$and:[{"ubicacion.nombre_comuna":{$regex:/^ma/i}},
+                            {"distribuidor.marca":{$regex:/^shell/i}}]},
+                             {_id:0, razon_social:1, "ubicacion.nombre_comuna":1, "ubicacion.direccion":1, "distribuidor.marca":1, "precios.95.precio":1})
+                             
+                             
+//estaciones de servicio cuyo nombre de cmuna comience con "ma" o terminen con "ción" y
+//cuyo distribuidor sea shell.
+//se debe mostrar razon social, comuna, direccion y precio de gasolinas 95
+db.estacionesServicios.find({$and:[{$or:[{"ubicacion.nombre_comuna":{$regex:/^ma/i}},
+                            {"ubicacion.nombre_comuna":{$regex:/^ción/i}}]},
+                            {"distribuidor.marca":{$regex:/^shell/i}}]},
+                            {_id:0, razon_social:1, "ubicacion.nombre_comuna":1, "ubicacion.direccion":1, "distribuidor.marca":1, "precios.95.precio":1 })
+                            
+                            
+//estaciones de servicio cuyo nombre de cmuna comience con "ma" o terminen con "ción" y
+//cuyo distribuidor sea shell.
+//se debe mostrar razon social, comuna, direccion y precio de gasolinas 95
+db.estacionesServicios.find({$and:[{"ubicacion.nombre_comuna":{$in:[/^ma/i,/^ción$/i]}},
+                            {"distribuidor.marca":{$regex:/^shell/i}}]},
+                            {_id:0, razon_social:1, "ubicacion.nombre_comuna":1, "ubicacion.direccion":1, "distribuidor.marca":1, "precios.95.precio":1 })
+                            
