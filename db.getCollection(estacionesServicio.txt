@@ -43,4 +43,13 @@ db.estacionesServicios.find({$and:[{$or:[{"ubicacion.nombre_comuna":{$regex:/^ma
 db.estacionesServicios.find({$and:[{"ubicacion.nombre_comuna":{$in:[/^ma/i,/^ción$/i]}},
                             {"distribuidor.marca":{$regex:/^shell/i}}]},
                             {_id:0, razon_social:1, "ubicacion.nombre_comuna":1, "ubicacion.direccion":1, "distribuidor.marca":1, "precios.95.precio":1 })
-                            
+
+
+
+//todas las estaciones de servicios cuyo nombre de distribuidor contenga al inicio la letra "s"
+//sin importar las mayusculas o minusculas. mostrar todas las comunas
+db.estacionesServicios.find({"distribuidor.marca":{$regex:/^s/i}})
+
+
+//todas las estaciones de servicios cuyo nombre de distribuidor contenga al inicio la palabra "co"
+db.estacionesServicios.find({"distribuidor.marca":{$regex:/^co/i}})
